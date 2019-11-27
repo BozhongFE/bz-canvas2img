@@ -33,6 +33,26 @@ if (!exists('dist/')) {
 }
 
 const builds = {
+  'dev': {
+    input: 'src/core.js',
+    format: 'umd',
+    moduleName: name,
+    output: path.join(modulePath, name + '-debug.js'),
+    plugins: [
+      resolve(),
+      commonjs()
+    ]
+  },
+  'prod': {
+    input: 'src/core.js',
+    format: 'umd',
+    moduleName: name,
+    output: path.join(modulePath, name + '.js'),
+    plugins: [
+      resolve(),
+      commonjs()
+    ]
+  },
   'dist-axios-esm': {
     input: 'src/index-axios.js',
     format: 'es',

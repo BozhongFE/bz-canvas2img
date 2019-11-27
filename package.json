@@ -6,7 +6,7 @@
   "module": "dist/bz-canvas2img.esm.js",
   "scripts": {
     "build": "node ./build/build.js",
-    "lint": "eslint ./src/index.js"
+    "lint": "eslint ./src/core.js"
   },
   "author": "PJJ",
   "license": "ISC",
