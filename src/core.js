@@ -72,7 +72,6 @@ class Canvas2img {
   // 生成base64
   _generateBase64(callback) {
     let imgBase64 = this.canvas.toDataURL('image/jpeg');
-    imgBase64 = imgBase64.replace('data:image/jpeg;base64,', '');
     callback(imgBase64);
   }
 
@@ -82,8 +81,9 @@ class Canvas2img {
     let template = '';
     const row = [];
 
-    for (let i = 0; i < characters.length; i += 1) {
-      if (this.context.measureText(template).width < lineMaxWidth && this.context.measureText(template + characters[i]).width <= lineMaxWidth) {
+    for (let i = 0; i < characters.length + 1; i += 1) {
+      const flag = (i === characters.length) ? false : true;
+      if (this.context.measureText(template).width < lineMaxWidth && flag) {
         template += characters[i];
       } else {
         row.push(template);

@@ -73,7 +73,6 @@ Canvas2img.prototype._startDraw = function _startDraw (queues, callback) {
 // 生成base64
 Canvas2img.prototype._generateBase64 = function _generateBase64 (callback) {
   var imgBase64 = this.canvas.toDataURL('image/jpeg');
-  imgBase64 = imgBase64.replace('data:image/jpeg;base64,', '');
   callback(imgBase64);
 };
 
@@ -86,8 +85,9 @@ Canvas2img.prototype.textPreWrap = function textPreWrap (content, drawX, drawY, 
   var template = '';
   var row = [];
 
-  for (var i = 0; i < characters.length; i += 1) {
-    if (this.context.measureText(template).width < lineMaxWidth && this.context.measureText(template + characters[i]).width <= lineMaxWidth) {
+  for (var i = 0; i < characters.length + 1; i += 1) {
+    var flag = (i === characters.length) ? false : true;
+    if (this.context.measureText(template).width < lineMaxWidth && flag) {
       template += characters[i];
     } else {
       row.push(template);

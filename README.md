@@ -14,7 +14,10 @@ npm run build
 
 Canvas2img 是一个canvas 合成图片的构造函数。
 
-【注意，模块是按照 **375** 来设计的，即传入得数值或外部写的数值，都是设计稿 **750**  的一半】
+【注意】
+
+- 模块是按照 **375** 来设计的，即传入得数值或外部写的数值，都是设计稿 **750**  的一半
+- 没有使用`addImage` 方法画图，就不支持`addText` 画文字
 
 #### 传入参数
 
@@ -40,7 +43,7 @@ const canvas2img = new Canvas2img(width, height);
 
 实例化对象，调用方法。
 
-##### addImage(url, options)
+##### **addImage(url, options)**
 
 添加画图参数。
 
@@ -49,7 +52,7 @@ const canvas2img = new Canvas2img(width, height);
 | url     | string（必选） | 图像的路径，本地或线上的都可以 |
 | options | object（必选） | 包含画图的四个参数             |
 
-- options 四个参数
+- **options 四个参数**
 
   | 参数   | 类型                      | 说明                         |
   | ------ | ------------------------- | ---------------------------- |
@@ -58,7 +61,7 @@ const canvas2img = new Canvas2img(width, height);
   | width  | number（可选），默认为100 | 要使用的图像的宽度           |
   | height | number（可选），默认为100 | 要使用的图像的高度           |
 
-##### addText(callback)
+##### **addText(callback)**
 
 添加画字方法。
 
@@ -66,11 +69,13 @@ const canvas2img = new Canvas2img(width, height);
 | -------- | ---------------- | ---------- |
 | callback | function（必选） | 画字的方法 |
 
-##### textPreWrap(content, drawX, drawY, lineHeight, lineMaxWidth, lineNum)
+##### **textPreWrap(content, drawX, drawY, lineHeight, lineMaxWidth, lineNum)**
 
 绘制文字时，提供了一个文字自动换行方法，方便对文字统一需求的使用。
 
-【注意】如果不填`lineNum` 参数，会显示全部文本，如果填的`lineNum` 参数大于文本总行数，也会显示全部文本，如果填的`lineNum` 参数小于文本总行数，这后面的会用`...` 省略掉
+【注意】
+
+- 如果不填`lineNum` 参数，会显示全部文本，如果填的`lineNum` 参数大于文本总行数，也会显示全部文本，如果填的`lineNum` 参数小于文本总行数，这后面的会用`...` 省略掉
 
 | 参数         | 类型           | 说明                     |
 | ------------ | -------------- | ------------------------ |
@@ -81,7 +86,7 @@ const canvas2img = new Canvas2img(width, height);
 | lineMaxWidth | number（必选） | 允许的最大文本宽度       |
 | lineNum      | number（可选） | 允许最多绘制的行数       |
 
-##### draw(callback)
+##### **draw(callback)**
 
 执行绘制图片。
 
@@ -128,9 +133,9 @@ canvas2img.addText(() => {
   const t = '婕拉山东矿机阿斯利利利大时代尽快哈市的金卡和达康书记德哈卡加大号是侃大山';
   canvas2img.textPreWrap(t, canvas.width / 4, 80, 30, 200, 5);
 });
-canvas2img.draw((data) => {
+canvas2img.draw((url) => {
   const $img = document.getElementById('img');
-  $img.src = data;
+  $img.src = url;
 });
 ```
 
@@ -159,22 +164,22 @@ canvas2img.addText(() => {
   const t = '婕拉山东矿机阿斯利利利大时代尽快哈市的金卡和达康书记德哈卡加大号是侃大山';
   canvas2img.textPreWrap(t, canvas.width / 4, 80, 30, 200, 5);
 });
-canvas2img.draw((data) => {
+canvas2img.draw((imgBase64) => {
   const $img = document.getElementById('img');
-    api.base64({
-      type: 'post',
-      data: {
-        class: 'user',
-        contentType: 'image/jpeg',
-        file: data,
-      },
-      success(data) {
-        $img.src = data.data.url;  
-      },
-      error(err) {
-        console.log(err);
-      }
-    });
+  imgBase64 = imgBase64.replace('data:image/jpeg;base64,', '');
+  api.base64({
+    type: 'post',
+    data: {
+      class: 'user',
+      contentType: 'image/jpeg',
+      file: imgBase64,
+    },
+    success(data) {
+      $img.src = data.data.url;  
+    },
+    error(err) {
+      console.log(err);
+    }
   });
 });
 ```
