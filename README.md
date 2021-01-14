@@ -2,6 +2,13 @@
 
 播种网canvas合成图片模块
 
+## 版本
+
+| 版本号 |      |
+| ------ | ---- |
+| 0.1.0  | A  生成画图工具    |
+| 0.2.0  | A  增加绘图自定义回调    |
+
 ## 打包
 
 ``` js
@@ -124,7 +131,16 @@ const context = canvas2img.context;
 const canvas = canvas2img.canvas;
 
 canvas2img.addImage(require('../assets/img/logo.png'), {x: 200, y: 0, width: 100, height: 100});
-canvas2img.addImage(require('../assets/img/code.jpg'), {x: 100, y: 300, width: 100, height: 100});
+canvas2img.addImage(require('../assets/img/code.jpg'), {x: 100, y: 300, width: 100, height: 100}, (img) => {
+  const x = img.x + img.width / 2;
+  const y = img.y + img.height / 2;
+  context.save();
+  context.clearRect(img.x, img.y, img.width, img.height);
+  context.arc(x, y, 50, 0, Math.PI * 2);
+  context.clip();
+  context.save();
+  context.restore();
+});
 canvas2img.addText(() => {
   context.font = '20px Arial';
   context.fillStyle = "#5e130e";
@@ -155,7 +171,16 @@ const context = canvas2img.context;
 const canvas = canvas2img.canvas;
 
 canvas2img.addImage(require('../assets/img/logo.png'), {x: 200, y: 0, width: 100, height: 100});
-canvas2img.addImage(require('../assets/img/code.jpg'), {x: 100, y: 300, width: 100, height: 100});
+canvas2img.addImage(require('../assets/img/code.jpg'), {x: 100, y: 300, width: 100, height: 100}, (img) => {
+  const x = img.x + img.width / 2;
+  const y = img.y + img.height / 2;
+  context.save();
+  context.clearRect(img.x, img.y, img.width, img.height);
+  context.arc(x, y, 50, 0, Math.PI * 2);
+  context.clip();
+  context.save();
+  context.restore();
+});
 canvas2img.addText(() => {
   context.font = '20px Arial';
   context.fillStyle = "#5e130e";

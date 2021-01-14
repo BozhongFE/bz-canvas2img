@@ -34,9 +34,10 @@ Canvas2img.prototype._init = function _init () {
 };
 
 // 添加画图队列
-Canvas2img.prototype.addImage = function addImage (url, options) {
+Canvas2img.prototype.addImage = function addImage (url, options, callback) {
   var opts = Object.assign({}, this.config, options);
   opts.url = url;
+  opts.handle = callback;
   this.iQueues.push(opts);
 };
 
@@ -54,8 +55,17 @@ Canvas2img.prototype._startDraw = function _startDraw (queues, callback) {
       var image = new Image();
       image.setAttribute('crossOrigin', 'Anonymous');
       image.src = queues[n].url;
+      var handle = queues[n].handle;
+      var imgbase = {
+        x: queues[n].x,
+        y: queues[n].y,
+        width: queues[n].width,
+        height: queues[n].height
+      };
       image.onload = function () {
+        handle && handle(imgbase);
         this$1.context.drawImage(image, queues[n].x, queues[n].y, queues[n].width, queues[n].height);
+        this$1.context.restore();
         if (n === queues.length - 1) {
           this$1.tQueues.forEach(function (item) {
             item();

@@ -1,6 +1,6 @@
 {
   "name": "@bz/canvas2img",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "播种网canvas合成图片模块",
   "main": "dist/bz-canvas2img.js",
   "module": "dist/bz-canvas2img.esm.js",

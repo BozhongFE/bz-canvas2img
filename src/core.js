@@ -35,9 +35,10 @@ class Canvas2img {
   }
 
   // 添加画图队列
-  addImage(url, options) {
+  addImage(url, options, callback) {
     const opts = Object.assign({}, this.config, options);
     opts.url = url;
+    opts.handle = callback;
     this.iQueues.push(opts);
   }
 
@@ -53,8 +54,17 @@ class Canvas2img {
         const image = new Image();
         image.setAttribute('crossOrigin', 'Anonymous');
         image.src = queues[n].url;
+        const handle = queues[n].handle;
+        const imgbase = {
+          x: queues[n].x,
+          y: queues[n].y,
+          width: queues[n].width,
+          height: queues[n].height
+        };
         image.onload = () => {
+          handle && handle(imgbase);
           this.context.drawImage(image, queues[n].x, queues[n].y, queues[n].width, queues[n].height);
+          this.context.restore();
           if (n === queues.length - 1) {
             this.tQueues.forEach((item) => {
               item();
