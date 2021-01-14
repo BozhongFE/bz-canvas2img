@@ -10,7 +10,7 @@ const upload = (file, callback) => {
       file: file,
     }))
     .then((response) => {
-      callback(response.data.data.url);
+      callback(response.data.data.url, file);
     })
     .catch((error) => {
       console.log(error);

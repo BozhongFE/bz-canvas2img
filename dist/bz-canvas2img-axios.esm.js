@@ -26,7 +26,7 @@ var upload = function (file, callback) {
       file: file,
     }))
     .then(function (response) {
-      callback(response.data.data.url);
+      callback(response.data.data.url, file);
     })
     .catch(function (error) {
       console.log(error);
@@ -99,6 +99,7 @@ Canvas2img.prototype._startDraw = function _startDraw (queues, callback) {
       };
       image.onload = function () {
         handle && handle(imgbase);
+        this$1.context.save();
         this$1.context.drawImage(image, queues[n].x, queues[n].y, queues[n].width, queues[n].height);
         this$1.context.restore();
         if (n === queues.length - 1) {

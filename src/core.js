@@ -63,6 +63,7 @@ class Canvas2img {
         };
         image.onload = () => {
           handle && handle(imgbase);
+          this.context.save();
           this.context.drawImage(image, queues[n].x, queues[n].y, queues[n].width, queues[n].height);
           this.context.restore();
           if (n === queues.length - 1) {
