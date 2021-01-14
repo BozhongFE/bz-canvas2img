@@ -21,7 +21,7 @@
     "uglify-js": "^3.6.2"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "object-assign": "^4.1.1"
   }
 }
